@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.5.1.min.js"></script>
+<head>
+<title>头像卡通化</title>
+<style>
+	.box {
+		margin: 0 auto;
+		width:700px;
+		display: flex;
+		justify-content: space-between;
+	}
+	.source-img {
+		padding: 10px;
+		width: 320px;
+    	height: 320px;
+    	border: 1px solid #000;
+	}
+	.transform-img {
+		padding: 10px;
+		width: 320px;
+    	height: 320px;
+    	border: 1px solid #000;
+	}
+	img {
+		width: auto;
+    	height: auto;
+    	max-width: 100%;
+    	max-height: 100%;
+	}
+	.upload {
+		margin-top: 30px;
+		display: flex;
+		justify-content: center;
+	}
+</style>
+</head>
+<body>
+	  <style> 
+      .w3cschool{text-align:center} 
+    </style> 
+    <div class="w3cschool">请上传您的靓照头像！</div> 
+	<div class="box">
+		<div class="source-img">
+			<img id="preview" name="preview">
+			
+		</div>
+		<div class="transform-img">
+			<img id="result">
+		</div>
+	</div>
+	<div class="upload">
+		<input type="file" id="photo" name="photo"  value="点击上传" onchange="change()"/>
+	</div>
+</body>
+</html>
+<script type="text/javascript">
+
+function change() {
+	const pic = document.getElementById("preview");
+	const file = document.getElementById("photo");
+	var ext=file.value.substring(file.value.lastIndexOf(".") + 1 ).toLowerCase();
+   	html5Reader(file);
+   	send(file);
+}
+
+function html5Reader(file) {
+	const fileSource = file.files[0];
+	const reader = new FileReader();
+	reader.readAsDataURL(fileSource);
+    reader.onload = function(e){
+	const pic = document.getElementById("preview");
+    pic.src=this.result;
+   }
+}
+
+function send(file) {
+	const formData = new FormData();
+	formData.append('image', file.files[0]);
+	$.ajax({
+		url: '/p',
+		type: 'POST',
+		dataType: 'json',
+		processData: false,
+		contentType: false,
+		data: formData,
+		success: function(res) {
+			const resultPhone = document.getElementById("result");
+			const a  = location.href.substring(0,location.href.lastIndexOf('/'))
+			console.log('a')
+			console.log(a)
+			console.log(res.img)
+			resultPhone.src = a + res.img;
+		},error:function() {
+			console.log("后台处理错误")
+		}
+	})
+}
+</script>

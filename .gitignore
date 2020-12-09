@@ -1,0 +1,6 @@
+cycle_gan/checkpoints/*
+*.pyc
+dataA/*
+dataB/*
+cycle_gan/static/*.png
+cycle_gan/static/*.bmp
