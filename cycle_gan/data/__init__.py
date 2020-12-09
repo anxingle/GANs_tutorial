@@ -45,10 +45,10 @@ def get_option_setter(dataset_name):
 
 
 def create_dataset(opt):
-	"""Create a dataset given the option.
+	"""根据命令行参数创建 dataset 类
 
-	This function wraps the class CustomDatasetDataLoader.
-		This is the main interface between this package and 'train.py'/'test.py'
+	本函数包装 CustomDatasetDataLoader 类
+		这是本模块和 'train.py '/'test.py'/'app.py' 的主要接口
 
 	Example:
 		>>> from data import create_dataset
@@ -60,13 +60,12 @@ def create_dataset(opt):
 
 
 class CustomDatasetDataLoader():
-	"""Wrapper class of Dataset class that performs multi-threaded data loading"""
+	""" 将 DataSet 类包装，并进行多进程加载 """
 
 	def __init__(self, opt):
-		"""Initialize this class
-
-		Step 1: create a dataset instance given the name [dataset_mode]
-		Step 2: create a multi-threaded data loader.
+		"""
+		步骤 1: 根据参数 [opt.dataset_mode] 创建 dataset 类实例: unaligned | aligned | single | colorization
+		步骤 2: 创建多进程数据加载器
 		"""
 		self.opt = opt
 		dataset_class = find_dataset_using_name(opt.dataset_mode)

@@ -2,6 +2,9 @@ import os
 import torch
 from collections import OrderedDict
 from abc import ABC, abstractmethod
+import logging
+import logging.config
+_logger = logging.getLogger(__name__)
 from . import networks
 
 
@@ -179,6 +182,7 @@ class BaseModel(ABC):
 		Parameters:
 			epoch (int) -- 当前 epoch; 在文件 '%s_net_%s.pth' % (epoch, name) 中使用
 		"""
+		_logger.error(" epoch: %s" % epoch)
 		for name in self.model_names:
 			if isinstance(name, str):
 				load_filename = '%s_net_%s.pth' % (epoch, name)
