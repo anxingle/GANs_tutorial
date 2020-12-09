@@ -1,13 +1,25 @@
 """This module contains simple helper functions """
 from __future__ import print_function
 import torch
+import torchvision.transforms as transforms
 import numpy as np
 from PIL import Image
 import os
 
 
+def im2tensor(img_path):
+	""" 将图片预处理为相应 tensor """
+	img = Image.open(img_path).convert('RGB')
+	# untransform_list = [transforms.ToTensor(), UnNormalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))]
+	transforms_list = [transforms.ToTensor(), transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))]
+	untransform = transforms.Compose(transforms_list)
+	img_tensor = untransform(img)
+	img_tensor = img_tensor[None, :, :]
+	return img_tensor
+
+
 def tensor2im(input_image, imtype=np.uint8):
-	""""Converts a Tensor array into a numpy image array.
+	""" Converts a Tensor array into a numpy image array.
 
 	Parameters:
 		input_image (tensor) --  the input image tensor array
@@ -101,3 +113,21 @@ def mkdir(path):
 	"""
 	if not os.path.exists(path):
 		os.makedirs(path)
+
+
+class UnNormalize(object):
+	def __init__(self, mean, std):
+		self.mean = mean
+		self.std = std
+
+	def __call__(self, tensor):
+		"""
+		Args:
+			tensor (Tensor): Tensor image of size (C, H, W) to be normalized.
+		Returns:
+			Tensor: Normalized image.
+		"""
+		for t, m, s in zip(tensor, self.mean, self.std):
+			t.mul_(s).add_(m)
+			# The normalize code -> t.sub_(m).div_(s)
+		return tensor
