@@ -1,0 +1,4 @@
+2020-12-09 17:48:44 - ERROR - __main__[line:11]: *****ok*********
+2020-12-09 17:48:49 - ERROR - models.base_model[line:185]:  epoch: latest
+2020-12-09 17:48:56 - ERROR - __main__[line:11]: *****ok*********
+2020-12-09 17:48:57 - ERROR - models.base_model[line:185]:  epoch: latest
