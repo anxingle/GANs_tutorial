@@ -67,7 +67,7 @@ def predict():
 			model.test()
 			visuals = model.get_current_visuals() # 得到结果图片
 			result_img = util.tensor2im(visuals['fake'])
-			save_path = time.strftime('%H_%M_%S', time.localtime()) + '_%d.png' % random.randint(0, 12)
+			save_path = time.strftime('%H_%M_%S', time.localtime()) + '_%d.bmp' % random.randint(0, 12)
 			if result_img is not None:
 				cv2.imwrite('./static/%s' % save_path, result_img)
 				result = '/static/%s' % save_path
