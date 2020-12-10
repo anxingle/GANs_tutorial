@@ -19,6 +19,7 @@ class TestModel(BaseModel):
 		需要通过 '--model_suffix' 来指定使用的网络
 		"""
 		assert not is_train, 'TestModel cannot be used during training time'
+		parser.set_defaults(no_dropout=True)  # 测试阶段默认没有使用 dropout
 		parser.set_defaults(dataset_mode='single')
 		parser.add_argument('--model_suffix', type=str, default='', help='在目录 checkpoints_dir 中, [epoch]_net_G[model_suffix].pth 将会作为生成器来加载')
 
