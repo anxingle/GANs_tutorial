@@ -60,7 +60,7 @@ class BaseOptions():
 		self.initialized = True
 		return parser
 
-	def gather_options(self):
+	def gather_options(self, infer=False):
 		"""使用基础选项参数初始化 parser(仅一次).
 		增加额外的 model-specific 和 dataset-specific 选项
 		这些选项定义在 dataset 和 model 类的 <modify_commandline_options> 函数中
@@ -69,6 +69,8 @@ class BaseOptions():
 			parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 			parser = self.initialize(parser)
 
+		if infer:
+			parser.add_argument('--port', required=True, type=str, help='推理时后端服务开放端口')
 		# 得到基本选项
 		opt, _ = parser.parse_known_args()
 
@@ -112,9 +114,9 @@ class BaseOptions():
 			opt_file.write(message)
 			opt_file.write('\n')
 
-	def parse(self):
+	def parse(self, infer=False):
 		""" 解析选项, 创建 checkpoints 目录前缀, 设置GPU设备 """
-		opt = self.gather_options()
+		opt = self.gather_options(infer)
 		opt.isTrain = self.isTrain   # train or test
 
 		# process opt.suffix

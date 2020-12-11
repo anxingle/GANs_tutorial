@@ -24,7 +24,7 @@ from util import htmls
 from util import util
 
 
-opt = TestOptions().parse()
+opt = TestOptions().parse(infer=True)
 # 直接指定一些选项进行测试
 opt.num_threads = 0   # 测试时 DataLoader 仅支持 num_threads = 0
 opt.batch_size = 1	# 测试时batch_size设为1
@@ -83,4 +83,4 @@ def predict():
 if __name__ == '__main__':
 	# [pix2pix]: 在原始 pix2pix 中使用 batchnorm 和 dropout。可以试试使用和不使用 eval() 模式的区别。
 	# [CycleGAN]: 不会影响CycleGAN。因为CycleGAN 使用 instancenorm，没有使用 dropout。
-	app.run(host='0.0.0.0', port='8080', debug=True)
+	app.run(host='0.0.0.0', port=opt.port, debug=True)
