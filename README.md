@@ -13,9 +13,13 @@
 
 ###  推理使用
 ```
-python app.py --dataroot ./ --model test -model_suffix _A --norm_max 255 --norm_min 0 --dataset_mode single --gpu_ids -1 --name xrays --netG unet_256
+python app.py --port 8888 -model_suffix _A  --gpu_ids -1 --name xrays 
 # --norm_max --norm_min 均仅在读取dicom时才会被使用，不用特别关注。详见 unaligned_dataset.py 中 __getitem__() 函数
 # --name 为训练的网络名称，在 checkpoints中显示为某目录
+# --port 8888
+# 使用官方预训练模型
+python app.py --port 8080 --gpu_ids -1 --name style_cezane_pretrained
+# --name 下为 ./checkpoints/style_cezane_pretrained/latest_net_G.pth
 ```
 
 ![](https://raw.githubusercontent.com/anxingle/GANs_tutorial/main/imgs/infer.jpg)

@@ -20,7 +20,7 @@ class BaseOptions():
 	def initialize(self, parser):
 		""" 定义 训练/测试中 常见选项 """
 		# basic parameters
-		parser.add_argument('--dataroot', required=True, help='图片训练集路径 (应还有 trainA, trainB, valA, valB 等子文件夹)')
+		parser.add_argument('--dataroot', help='图片训练集路径 (应还有 trainA, trainB, valA, valB 等子文件夹)')
 		parser.add_argument('--name', type=str, default='experiment_name', help='实验名称. 决定了将样本和模型存储在哪')
 		parser.add_argument('--gpu_ids', type=str, default='0', help='gpu ids: e.g. 0  0,1,2, 0,2. use -1 for CPU')
 		parser.add_argument('--checkpoints_dir', type=str, default='./checkpoints', help='模型存储位置')
@@ -54,8 +54,8 @@ class BaseOptions():
 		parser.add_argument('--load_iter', type=int, default='0', help='which iteration to load? if load_iter > 0, the code will load models by iter_[load_iter]; otherwise, the code will load models by [epoch]')
 		parser.add_argument('--verbose', action='store_true', help='if specified, print more debugging information')
 		parser.add_argument('--dicom', action='store_true', help='if specified, print more debugging information')
-		parser.add_argument('--norm_max', type=int, required=True, help='dataset min/max values')
-		parser.add_argument('--norm_min', type=int, required=True, help='dataset min/max values')
+		parser.add_argument('--norm_max', type=int, default=255, help='dataset min/max values')
+		parser.add_argument('--norm_min', type=int, default=0, help='dataset min/max values')
 		parser.add_argument('--suffix', default='', type=str, help='customized suffix: opt.name = opt.name + suffix: e.g., {model}_{netG}_size{load_size}')
 		self.initialized = True
 		return parser
@@ -71,6 +71,11 @@ class BaseOptions():
 
 		if infer:
 			parser.add_argument('--port', required=True, type=str, help='推理时后端服务开放端口')
+			parser.set_defaults(dataroot='./')  # 推理时不需要指定--dataroot
+			parser.set_defaults(norm_max=255)  # 读取非dicom时不需要指定 norm_max
+			parser.set_defaults(norm_min=0)  # 读取非dicom时不需要指定 norm_min
+			parser.set_defaults(model='test')  # 读取非dicom时不需要指定 norm_min
+			parser.set_defaults(dataset_mode='single')  # 推理时数据集类应为单向
 		# 得到基本选项
 		opt, _ = parser.parse_known_args()
 
