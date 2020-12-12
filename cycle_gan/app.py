@@ -59,12 +59,12 @@ def predict():
 			file_path = './static/' + secure_filename(f.filename)
 			_logger.info('file_path: %s' % file_path)
 			f.save(file_path)
-			# img = cv2.cvtColor(cv2.imread(file_path), cv2.COLOR_BGR2RGB)
+			# 将image 读取并转为 tensor
 			img = util.im2tensor(file_path)
 			input_data = {'A': img, 'A_paths': file_path}
 			model.set_input(input_data)
 			model.test()
-			visuals = model.get_current_visuals() # 得到结果图片
+			visuals = model.get_current_visuals() # 得到结果字典（fake: 图片）
 			result_img = util.tensor2im(visuals['fake'])
 			save_path = time.strftime('%H_%M_%S', time.localtime()) + '_%d.bmp' % random.randint(0, 12)
 			if result_img is not None:
