@@ -8,7 +8,6 @@ import cv2
 import json
 
 _logger = logging.getLogger(__name__)
-_logger.error("*****ok*********")
 
 from werkzeug.utils import secure_filename
 from flask import Flask, request, Response, send_from_directory
