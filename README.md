@@ -13,10 +13,11 @@
 
 ###  推理使用
 ```
-python app.py --port 8888 -model_suffix _A  --gpu_ids -1 --name xrays 
+python app.py --port 8888 -model_suffix _A  --gpu_ids -1 --name xrays --netG resnet_6blocks
 # --norm_max --norm_min 均仅在读取dicom时才会被使用，不用特别关注。详见 unaligned_dataset.py 中 __getitem__() 函数
 # --name 为训练的网络名称，在 checkpoints中显示为某目录
 # --port 8888
+# --netG 生成器网络名 resnet_6blocks|resnet_9blocks|unet_256|unet_128
 # 使用官方预训练模型
 python app.py --port 8080 --gpu_ids -1 --name style_cezane_pretrained
 # --name 下为 ./checkpoints/style_cezane_pretrained/latest_net_G.pth
